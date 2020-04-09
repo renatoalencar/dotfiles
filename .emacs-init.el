@@ -25,7 +25,7 @@ There are two things you can do about this warning:
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (coffee-mode flycheck tide yaml-mode all-the-icons smart-mode-line typescript-mode neotree dracula-theme))))
+    (magit terraform-mode coffee-mode flycheck tide yaml-mode all-the-icons smart-mode-line typescript-mode neotree dracula-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -74,3 +74,7 @@ There are two things you can do about this warning:
 (add-hook 'before-save-hook 'tide-format-before-save)
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
+(global-set-key (kbd "C-x g") 'magit-status)
+(server-start)
+
+(add-hook 'server-switch-mode #'raise-frame)
