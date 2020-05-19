@@ -25,7 +25,7 @@ There are two things you can do about this warning:
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (magit terraform-mode coffee-mode flycheck tide yaml-mode all-the-icons smart-mode-line typescript-mode neotree dracula-theme))))
+    (tabbar doom-themes doom-modeline web-mode auto-complete jinja2-mode dockerfile-mode php-mode magit terraform-mode coffee-mode flycheck tide yaml-mode all-the-icons smart-mode-line typescript-mode neotree dracula-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -37,22 +37,32 @@ There are two things you can do about this warning:
 (require 'typescript-mode)
 (require 'smart-mode-line)
 (require 'yaml-mode)
+(require 'doom-modeline)
 
-(load-theme 'dracula t)
-(set-default-font "Source Code Pro Semibold")
-(global-set-key (kbd "C-x C-1") 'neotree-toggle)
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(defun setup-theme ()
 
-(setq sml/theme 'powerline)
-(sml/setup)
+  ;; setup dracula theme for both editor and emacs in general
+  (load-theme 'dracula t)
+  (load-theme 'doom-dracula t)
 
-(setq make-backup-files nil)
+  ;; setup editor font family as some Source Code Pro
+  (set-default-font "Source Code Pro Semibold")
 
-(global-display-line-numbers-mode)
-(setq-default indent-tabs-mode nil)
-(setq-default tab-top-list '(2 4 6 8 10))
-(electric-indent-mode 0)
+  ;; setup themes for neotree
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (setq neo-window-width 30)
+  (setq doom-themes-neotree-file-icons t)
+  (doom-themes-neotree-config)
 
+  ;; setup modeline
+  (doom-modeline-mode 1))
+
+(defun setup-editor-behavior ()
+  (setq make-backup-files nil)
+  (global-display-line-numbers-mode)
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-top-list '(2 4 6 8 10))
+  (electric-indent-mode 0))
 
 (require 'pasquale-mode "/home/renato/.emacs.d/pasquale-mode.el")
 
@@ -67,14 +77,26 @@ There are two things you can do about this warning:
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
+  (auto-complete-mode)
   (tide-hl-identifier-mode +1)
   (local-set-key [mouse-9] #'tide-jump-to-definition)
   (local-set-key [mouse-8] #'tide-jump-back))
 
-(add-hook 'before-save-hook 'tide-format-before-save)
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
+(defun setup-key-bindings ()
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (global-set-key (kbd "C-x |") #'split-window-right)
+  (global-set-key (kbd "C-x -") #'split-window-below)
+  (global-set-key (kbd "C-x C-1") 'neotree-toggle))
 
-(global-set-key (kbd "C-x g") 'magit-status)
+(defun setup-hooks ()
+  (add-hook 'before-save-hook 'tide-format-before-save)
+  (add-hook 'typescript-mode-hook #'setup-tide-mode)
+  (add-hook 'server-switch-mode #'raise-frame))
+
+
+(setup-key-bindings)
+(setup-hooks)
+(setup-theme)
+(setup-editor-behavior)
+
 (server-start)
-
-(add-hook 'server-switch-mode #'raise-frame)
