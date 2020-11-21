@@ -24,7 +24,8 @@
                  smart-mode-line
                  typescript-mode
                  neotree
-                 dracula-theme)))
+                 dracula-theme
+                 solarized-theme)))
 
 (defun install-missing-packages (package-list)
   (package-refresh-contents)
@@ -43,11 +44,12 @@
 (defun setup-theme ()
 
   ;; setup dracula theme for both editor and emacs in general
-  (load-theme 'dracula t)
-  (load-theme 'doom-dracula t)
+  ;; now its solarized light
+  (load-theme 'solarized-light t)
+  (load-theme 'doom-solarized-light t)
 
   ;; setup editor font family as some Source Code Pro
-  (set-default-font "Source Code Pro Semibold")
+  (set-default-font "Source Code Pro Regular")
 
   ;; setup themes for neotree
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
@@ -64,6 +66,7 @@
   (setq-default indent-tabs-mode nil)
   (setq-default tab-top-list '(2 4 6 8 10))
   (electric-indent-mode 0)
+  (tool-bar-mode -1)
 
   (if (not (display-graphic-p))
     (xterm-mouse-mode)))
