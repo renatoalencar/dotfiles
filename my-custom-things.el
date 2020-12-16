@@ -39,7 +39,8 @@
   (require 'typescript-mode)
   (require 'smart-mode-line)
   (require 'yaml-mode)
-  (require 'doom-modeline))
+  (require 'doom-modeline)
+  (require 'flycheck-clj-kondo))
 
 (defun setup-theme ()
 
@@ -49,7 +50,7 @@
   (load-theme 'doom-solarized-light t)
 
   ;; setup editor font family as some Source Code Pro
-  (set-default-font "Source Code Pro Regular")
+  (set-default-font "Source Code Pro")
 
   ;; setup themes for neotree
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
@@ -67,6 +68,8 @@
   (setq-default tab-top-list '(2 4 6 8 10))
   (electric-indent-mode 0)
   (tool-bar-mode -1)
+
+  (global-flycheck-mode)
 
   (if (not (display-graphic-p))
     (xterm-mouse-mode)))
