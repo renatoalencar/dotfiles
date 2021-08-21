@@ -56,7 +56,8 @@
   (load-theme 'doom-gruvbox t)
 
   ;; setup editor font family as some Source Code Pro
-  (set-default-font "Source Code Pro")
+  ;; disabled because it's giving and error on Gnome
+  ;; (set-default-font "Source Code Pro")
 
   ;; setup themes for neotree
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
