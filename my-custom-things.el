@@ -11,6 +11,7 @@
                  doom-modeline
                  web-mode
                  auto-complete
+		 company
                  jinja2-mode
                  dockerfile-mode
                  php-mode
@@ -27,7 +28,12 @@
                  dracula-theme
                  solarized-theme)))
 
+(defun add-melpa-to-package-archives ()
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-initialize))
+
 (defun install-missing-packages (package-list)
+  (add-melpa-to-package-archives)
   (package-refresh-contents)
 
   (dolist (package package-list)
@@ -46,8 +52,8 @@
 
   ;; setup dracula theme for both editor and emacs in general
   ;; now its solarized light
-  (load-theme 'solarized-light t)
-  (load-theme 'doom-solarized-light t)
+  ;;(load-theme 'solarized-light t)
+  (load-theme 'doom-gruvbox t)
 
   ;; setup editor font family as some Source Code Pro
   (set-default-font "Source Code Pro")
@@ -85,7 +91,7 @@
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
-  (auto-complete-mode)
+  (company-mode +1)
   (tide-hl-identifier-mode +1)
   (local-set-key [mouse-9] #'tide-jump-to-definition)
   (local-set-key [mouse-8] #'tide-jump-back))
